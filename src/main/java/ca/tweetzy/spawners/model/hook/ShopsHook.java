@@ -17,8 +17,12 @@
  */
 package ca.tweetzy.spawners.model.hook;
 
+import ca.tweetzy.flight.gui.events.GuiClickEvent;
 import ca.tweetzy.shops.Shops;
 import ca.tweetzy.shops.api.shop.Shop;
+import ca.tweetzy.shops.gui.user.ShopContentsGUI;
+import ca.tweetzy.spawners.api.spawner.SpawnerUser;
+import ca.tweetzy.spawners.guis.user.SpawnerShopGUI;
 import ca.tweetzy.spawners.settings.Settings;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
@@ -34,5 +38,13 @@ public final class ShopsHook {
 	public Shop getSpawnerShop() {
 		if (!isShopsEnabled()) return null;
 		return Shops.getShopManager().getById(Settings.SHOPS_ID.getString());
+	}
+
+	public void handleCommand(GuiClickEvent click, SpawnerUser spawnerUser) {
+		final Shop shop = ShopsHook.getSpawnerShop();
+		if (shop == null)
+			click.manager.showGUI(click.player, new SpawnerShopGUI(spawnerUser));
+		else
+			Shops.getGuiManager().showGUI(click.player, new ShopContentsGUI(null, click.player, shop, true));
 	}
 }
