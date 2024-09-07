@@ -75,8 +75,13 @@ public final class BlockListeners implements Listener {
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
 
-		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) return;
+		if (hand.getType() != CompMaterial.SPAWNER.parseMaterial()) {
+			return;
+		}
+
+		if (NBT.get(hand, nbt -> (boolean) nbt.hasTag("Spawners:ownerUUID"))) {
+			return;
+		}
 
 		// check towny
 		if (!Spawners.getRegionHookManager().canBuild(player, event.getBlockPlaced())) {

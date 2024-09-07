@@ -109,15 +109,15 @@ public final class EggListeners implements Listener {
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onSpawnerClickWithEgg(final PlayerInteractEvent event) {
+		if (event.getClickedBlock() == null || event.getClickedBlock().getType() != CompMaterial.SPAWNER.parseMaterial()) return;
+		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
+
 		if (!Settings.ALLOW_SPAWNER_CHANGE_WITH_EGG.getBoolean()) {
 			event.setCancelled(true);
 			event.setUseInteractedBlock(Event.Result.DENY);
 			event.setUseInteractedBlock(Event.Result.DENY);
 			return;
 		}
-
-		if (event.getClickedBlock() == null || event.getClickedBlock().getType() != CompMaterial.SPAWNER.parseMaterial()) return;
-		if (event.getHand() == EquipmentSlot.OFF_HAND) return;
 
 		final Player player = event.getPlayer();
 		final SpawnerUser spawnerUser = Spawners.getPlayerManager().findUser(player);
